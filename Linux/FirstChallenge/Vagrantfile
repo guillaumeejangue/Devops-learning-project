@@ -1,0 +1,46 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Box wählen
+  config.ssh.insert_key = false
+  config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
+  config.ssh.username = "vagrant"
+  config.vm.box = "ubuntu/jammy64"
+
+  # Netzwerk (optional):
+  config.vm.network "private_network", ip: "192.168.33.14"
+  config.vm.network "public_network"
+
+  # VirtualBox-Provider-Einstellungen
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = false
+    vb.memory = "1600"
+    vb.cpus   = "2"
+  end
+
+  # Shell-Provisioning
+  config.vm.provision "shell", inline: <<-SHELL
+    # Pakete aktualisieren
+    apt-get update -y
+
+    # Ordner anlegen
+    mkdir -p /home/vagrant/Documents
+    mkdir -p /home/vagrant/Projets
+    mkdir -p /home/vagrant/Scripts
+
+    # Eine Datei erstellen und verschieben
+    touch /home/vagrant/rapport.txt
+    mv /home/vagrant/rapport.txt /home/vagrant/Documents/
+
+    # Skript via Here-Doc erstellen
+    cat << 'EOF' > /home/vagrant/Scripts/salut.sh
+#!/bin/bash
+echo "Bonjour, voici mon premier DevOps-Script!"
+EOF
+
+    # Ausführbar machen und aufrufen
+    chmod +x /home/vagrant/Scripts/salut.sh
+    /home/vagrant/Scripts/salut.sh
+  SHELL
+end
