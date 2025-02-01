@@ -1,0 +1,29 @@
+vagrant ssh web01
+------------------------------------------------------------------------------------------------------------------- 
+sudo -i
+------------------------------------------------------------------------------------------------------------------- 
+ping -c 6 192.168.40.18 (IP Address de DB01): 6 packets transmitted, 6 received, 0% packet loss, time 5269ms
+					      rtt min/avg/max/mdev = 1.315/2.565/6.626/1.836 MS
+------------------------------------------------------------------------------------------------------------------- 
+ping -c 6 google.com :
+--- google.com ping statistics ---
+6 packets transmitted, 6 received, 0% packet loss, time 5257ms
+rtt min/avg/max/mdev = 29.786/31.229/33.211/1.125 MS
+------------------------------------------------------------------------------------------------------------------- 
+
+Ping Show if there is any connectivity or Not
+
+====================================================================================================================
+
+netstat -antp (as root user)
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      683/sshd: /usr/sbin
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      562/systemd-resolve
+tcp        0      0 10.0.2.15:22            10.0.2.2:56351          ESTABLISHED 1424/sshd: vagrant
+tcp6       0      0 :::22                   :::*                    LISTEN      683/sshd: /usr/sbin
+tcp6       0      0 :::80                   :::*                    LISTEN      697/apache2
+
+====================================================================================================================
+curl -I http://www.google.com
+Curl : Teste la connectivité réseau en obtenant les en-têtes d'une page web (http://www.google.com)
